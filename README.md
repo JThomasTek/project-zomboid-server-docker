@@ -1,6 +1,6 @@
 # Project Zomboid Server Docker
 
-The goal of this Docker image is to make is very easy to spin up a dedicated server for Project Zomboid and make sure it stays up to date. A lot of the inspiration for this project came from the awesome work done in the [valheim-server-docker](https://github.com/lloesche/valheim-server-docker) project. Over time I plan to add many of the features available there such as automated backups. Please be sure to check out that project if you are looking to host a Valheim server! 🎮
+The goal of this Docker image is to make it very easy to spin up a dedicated server for Project Zomboid and make sure it stays up to date. A lot of the inspiration for this project came from the awesome work done in the [valheim-server-docker](https://github.com/lloesche/valheim-server-docker) project. Over time I plan to add many of the features available there such as automated backups. Please be sure to check out that project if you are looking to host a Valheim server! 🎮
 
 # Table of Contents
 
