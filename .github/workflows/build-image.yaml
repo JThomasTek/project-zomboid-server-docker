@@ -1,0 +1,47 @@
+name: build-image
+
+run-name: Build Image
+
+on:
+  push:
+    branches:
+      - main
+      - feature/*
+  pull_request:
+    branches:
+      - main
+      - feature/*
+
+jobs:
+  build-dockerfile:
+    name: Build Dockerfile
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Docker Metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: |
+            ghcr.io/jthomastek/project-zomboid-server
+            jthomastek/project-zomboid-server
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+          platforms: linux/amd64
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile
+          platforms: ${{ steps.meta.outputs.platforms }}
+          push: false
