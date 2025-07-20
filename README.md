@@ -156,8 +156,8 @@ The first time you deploy your server it will create all the Project Zomboid ser
 
 ### Server Config
 
-The server config ini file will be located at `${HOME}/pz-server/Zomboid/Server/MyPZServer.ini` if you used one of the Docker run commands or the Docker Compose shared above. This is where you can add mods to your server and configure RCON. I recommend following the instructions in the [Installing Mods](https://pzwiki.net/wiki/Dedicated_server#Installing_mods) section of the Project Zomboid Wiki if you do wish to install mods.
+The server config ini file will be located at `${HOME}/pz-server/Zomboid/Server/MyPZServer.ini` if you used one of the Docker run commands or the Docker Compose shown above. This is where you can add mods to your server and configure RCON. I recommend following the instructions in the [Installing Mods](https://pzwiki.net/wiki/Dedicated_server#Installing_mods) section of the Project Zomboid Wiki if you do wish to install mods.
 
 ### Sandbox Options
 
-The sandbox options file is located at `${HOME}/pz-server/Zomboid/Server/MyPZServer_SandboxVars.lua` if you used one of the Docker run commands or the Docker Compose shared above. More information about the sandbox options can be found on the [Custom Sandbox](https://pzwiki.net/wiki/Custom_Sandbox) page of the Project Zomboid wiki. The file is also well commented so this should be pretty easy to update.
+The sandbox options file is located at `${HOME}/pz-server/Zomboid/Server/MyPZServer_SandboxVars.lua` if you used one of the Docker run commands or the Docker Compose shown above. More information about the sandbox options can be found on the [Custom Sandbox](https://pzwiki.net/wiki/Custom_Sandbox) page of the Project Zomboid wiki. The file is also well commented so this should be pretty easy to update.
