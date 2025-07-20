@@ -150,7 +150,7 @@ Finally, the server startup script will run.
 
 ## Modifying Server Configuration
 
-If you would like to be able to easily modify the server configuraiton files I recommend mounting a local directory to the container.
+If you would like to be able to easily modify the server configuration files I recommend mounting a local directory to the container.
 
 The first time you deploy your server it will create all the Project Zomboid server configuration files for you with their default values. Stop the container and then open the directory you mounted as a volume to your container to update the config files.
 
