@@ -31,6 +31,7 @@ For those who just want to get a server up and running use the commands below:
 # Create a data directory to mount persistent data to.
 $ mkdir -p $HOME/pz-server
 
+# Set PZ_ADMIN_PASSWORD to something more secure!!! You've been warned!
 $ docker run -d \
     --name pzserver \
     -p 8766:8766/udp \
@@ -46,6 +47,7 @@ $ docker run -d \
 # Create a data directory to mount persistent data to.
 $ mkdir -p $HOME/pz-server
 
+# Set PZ_ADMIN_PASSWORD to something more secure!!! You've been warned!
 $ docker run -d \
     --name pzserver \
     -p 8766:8766/udp \
@@ -75,14 +77,14 @@ Variable names and values are case-sensitive.
 
 | Name | Default Value | Purpose |
 |------|---------------|---------|
-| `JAVA_XMS` | `4g` | Sets the minimum amount of memory to allocate to the JVM |
-| `JAVA_XMX` | `8g` | Sets the maximum amount of memory to allocate to the JVM |
+| `PZ_JAVA_XMS` | `4g` | Sets the minimum amount of memory to allocate to the JVM |
+| `PZ_JAVA_XMX` | `8g` | Sets the maximum amount of memory to allocate to the JVM |
 
 ### Steam Variables
 
 | Name | Default Value | Purpose |
 |------|---------------|---------|
-| `STEAM_VAC` | `true` | Enables or disables [Valve Anti-Cheat](https://en.wikipedia.org/wiki/Valve_Anti-Cheat) on the server |
+| `PZ_STEAM_VAC` | `true` | Enables or disables [Valve Anti-Cheat](https://en.wikipedia.org/wiki/Valve_Anti-Cheat) on the server |
 
 ## Docker Run Flags
 
