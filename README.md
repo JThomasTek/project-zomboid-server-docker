@@ -37,7 +37,7 @@ $ docker run -d \
     -p 8766:8766/udp \
     -p 16261-16262:16261-16262/udp \
     -v $HOME/pz-server:/home/ubuntu \
-    -e PZ_ADMIN_PASSWORD="MySecurePassword" \ # Set this to something more secure!!! You've been warned!
+    -e PZ_ADMIN_PASSWORD="MySecurePassword" \
     jthomastek/project-zomboid-server
 ```
 
@@ -53,7 +53,7 @@ $ docker run -d \
     -p 8766:8766/udp \
     -p 16261-16262:16261-16262/udp \
     -v $HOME/pz-server:/home/ubuntu \
-    -e PZ_ADMIN_PASSWORD="MySecurePassword" \ # Set this to something more secure!!! You've been warned!
+    -e PZ_ADMIN_PASSWORD="MySecurePassword" \
     ghcr.io/jthomastek/project-zomboid-server
 ```
 
