@@ -2,14 +2,14 @@
 
 first_run=true
 
-if [ -d "/home/steam/Zomboid" ]; then
+if [ -d "/home/ubuntu/Zomboid" ]; then
     first_run=false
 fi
 
 # Update the game
-steamcmd +force_install_dir /home/steam/pzserver +login anonymous +app_update 380870 +quit
+steamcmd +force_install_dir /home/ubuntu/pzserver +login anonymous +app_update 380870 +quit
 
-cd /home/steam/pzserver
+cd /home/ubuntu/pzserver
 
 if [ $first_run == "true" ]; then
     printf "$PZ_ADMIN_PASSWORD\n$PZ_ADMIN_PASSWORD" | ./start-server.sh -servername $PZ_SERVER_NAME

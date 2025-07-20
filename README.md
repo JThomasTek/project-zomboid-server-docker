@@ -2,16 +2,23 @@
 
 The goal of this Docker image is to make it very easy to spin up a dedicated server for Project Zomboid and make sure it stays up to date. A lot of the inspiration for this project came from the awesome work done in the [valheim-server-docker](https://github.com/lloesche/valheim-server-docker) project. Over time I plan to add many of the features available there such as automated backups. Please be sure to check out that project if you are looking to host a Valheim server! 🎮
 
-# Table of Contents
+## Table of Contents
 
-- [TL;DR](#tldr)
-- [Environment Variables](#environment-variables)
-- [Docker Run Flags](#docker-run-flags)
-- [How the Container Works](#how-the-container-works)
+- [Project Zomboid Server Docker](#project-zomboid-server-docker)
+  - [Table of Contents](#table-of-contents)
+  - [TL;DR](#tldr)
+    - [Docker Hub Image](#docker-hub-image)
+    - [GHCR Image](#ghcr-image)
+    - [NOTE](#note)
+  - [Environment Variables](#environment-variables)
+  - [Docker Run Flags](#docker-run-flags)
+  - [How the Container Works](#how-the-container-works)
 
-# TL;DR
+## TL;DR
 
 For those who just want to get a server up and running use the commands below:
+
+### Docker Hub Image
 
 ```bash
 # Create a data directory to mount persistent data to.
@@ -27,9 +34,27 @@ $ docker run -d \
     jthomastek/project-zomboid-server
 ```
 
+### GHCR Image
+
+```bash
+# Create a data directory to mount persistent data to.
+$ mkdir -p $HOME/pz-server
+# The first time you run this command provide the flag '-e PZ_ADMIN_PASSWORD=<admin_password>'. In following runs this flag can be omitted as long as the same volume mount is used.
+$ docker run -d \
+    --name pzserver \
+    -p 8766:8766/udp \
+    -p 16261-16262:16261-16262/udp \
+    -v $HOME/pz-server:/home/steam \
+    -e PZ_SERVER_NAME="MyPZServer" \
+    -e PZ_ADMIN_PASSWORD="MySecurePassword" \
+    ghcr.io/jthomastek/project-zomboid-server
+```
+
+### NOTE
+
 Keep in mind, the first time you run the container it can take a minute or two for the server to fully start as the steamcmd client is downloading the server files. Following runs should start up quickly as long as there has not been an update to the server.
 
-# Environment Variables
+## Environment Variables
 
 Variable names and values are case-sensitive.
 
@@ -38,7 +63,7 @@ Variable names and values are case-sensitive.
 | `PZ_SERVER_NAME` | `MyPZServer` | Name of the server that will show in server browsers |
 | `PZ_ADMIN_PASSWORD` | `InsecurePassword` | Password that will be used for administrating the server. It is your responsibility to set this to something more secure! |
 
-# Docker Run Flags
+## Docker Run Flags
 
 The following table lists the recommended flags to be used with the `docker run` command.
 
@@ -52,7 +77,7 @@ The following table lists the recommended flags to be used with the `docker run`
 | -e | PZ_ADMIN_PASSWORD=<admin_password> | This sets the admin password for the server. As long as the volume mount flag below is set then this is only needed the first time the image is run. |
 | --restart | always | Make sure to start up the container again if it crashes or the machine is restarted. |
 
-# How the Container Works
+## How the Container Works
 
 When this container is run it will call the [bootstrap](bootstrap) script. This script first checks if the `/home/steam/Zomboid` directory exists. This is done to determine how to run the server start script later on.
 
