@@ -1,12 +1,58 @@
 #!/bin/bash
 
+PZ_BACKUP_ENABLED="${PZ_BACKUP_ENABLED:-false}"
+PZ_BACKUP_INTERVAL="${PZ_BACKUP_INTERVAL:-3600}"
+PZ_BACKUP_RETENTION="${PZ_BACKUP_RETENTION:-10}"
+PZ_BACKUP_DIR="${PZ_BACKUP_DIR:-/home/ubuntu/backups}"
+PZ_BACKUP_TARGET="${PZ_BACKUP_TARGET:-/home/ubuntu/Zomboid}"
+
+backup_loop() {
+    mkdir -p "$PZ_BACKUP_DIR"
+
+    while true; do
+        if [[ -d "$PZ_BACKUP_TARGET" ]]; then
+            local ts
+            local backup_path
+
+            ts="$(date +%Y%m%d_%H%M%S)"
+            backup_path="$PZ_BACKUP_DIR/pz_backup_${ts}.tar.gz"
+            tar -czf "$backup_path" -C "$PZ_BACKUP_TARGET" .
+
+            if [[ "$PZ_BACKUP_RETENTION" =~ ^[0-9]+$ ]] && [[ "$PZ_BACKUP_RETENTION" -gt 0 ]]; then
+                ls -1t "$PZ_BACKUP_DIR"/pz_backup_*.tar.gz 2>/dev/null | tail -n +"$((PZ_BACKUP_RETENTION + 1))" | xargs -r rm -f
+            fi
+        fi
+
+        sleep "$PZ_BACKUP_INTERVAL"
+    done
+}
+
 # Update the game
 steamcmd +force_install_dir /home/ubuntu/pzserver +login anonymous +app_update 380870 +quit
 
 cd /home/ubuntu/pzserver
 
+if [[ "$PZ_BACKUP_ENABLED" == "true" ]]; then
+    backup_loop &
+    backup_pid=$!
+fi
+
 ./start-server.sh -Xms$PZ_JAVA_XMS -Xmx$PZ_JAVA_XMX -- \
     -adminusername $PZ_ADMIN_USERNAME \
     -adminpassword $PZ_ADMIN_PASSWORD \
     -servername $PZ_SERVER_NAME \
-    -steamvac $PZ_STEAM_VAC
+    -steamvac $PZ_STEAM_VAC &
+server_pid=$!
+
+cleanup() {
+    if [[ -n "$backup_pid" ]]; then
+        kill -TERM "$backup_pid" 2>/dev/null
+        wait "$backup_pid" 2>/dev/null
+    fi
+    kill -TERM "$server_pid" 2>/dev/null
+    wait "$server_pid" 2>/dev/null
+}
+
+trap cleanup SIGINT SIGTERM
+wait "$server_pid"
+cleanup

@@ -14,6 +14,13 @@ ENV PZ_JAVA_XMX="8g"
 # Steam parameters
 ENV PZ_STEAM_VAC="true"
 
+# Backup parameters
+ENV PZ_BACKUP_ENABLED="false"
+ENV PZ_BACKUP_INTERVAL="3600"
+ENV PZ_BACKUP_RETENTION="10"
+ENV PZ_BACKUP_DIR="/home/ubuntu/backups"
+ENV PZ_BACKUP_TARGET="/home/ubuntu/Zomboid"
+
 ##################### Commands Copied From GitHub.com/steamcmd/docker Project #####################
 # Original code Copyright (c) 2020 Jona Koudijs (https://github.com/jonakoudijs)
 

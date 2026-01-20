@@ -14,9 +14,11 @@ The goal of this Docker image is to make it very easy to spin up a dedicated ser
     - [Project Zomboid Server Variables](#project-zomboid-server-variables)
     - [Java Variables](#java-variables)
     - [Steam Variables](#steam-variables)
+    - [Backup Variables](#backup-variables)
   - [Docker Run Flags](#docker-run-flags)
   - [Docker Compose](#docker-compose)
   - [How the Container Works](#how-the-container-works)
+  - [Backups](#backups)
   - [Modifying Server Configuration](#modifying-server-configuration)
     - [Server Config](#server-config)
     - [Sandbox Options](#sandbox-options)
@@ -86,6 +88,16 @@ Variable names and values are case-sensitive.
 |------|---------------|---------|
 | `PZ_STEAM_VAC` | `true` | Enables or disables [Valve Anti-Cheat](https://en.wikipedia.org/wiki/Valve_Anti-Cheat) on the server |
 
+### Backup Variables
+
+| Name | Default Value | Purpose |
+|------|---------------|---------|
+| `PZ_BACKUP_ENABLED` | `false` | Enables periodic backups when set to `true` |
+| `PZ_BACKUP_INTERVAL` | `3600` | Seconds between backups |
+| `PZ_BACKUP_RETENTION` | `10` | Number of most recent backups to keep |
+| `PZ_BACKUP_DIR` | `/home/ubuntu/backups` | Directory where backups are stored |
+| `PZ_BACKUP_TARGET` | `/home/ubuntu/Zomboid` | Directory to back up |
+
 ## Docker Run Flags
 
 The following table lists the recommended flags to be used with the `docker run` command.
@@ -131,6 +143,9 @@ services:
       PZ_JAVA_XMS: "4g" # Make sure to allocate enough memory or the server will not start
       PZ_JAVA_XMX: "8g"
       PZ_STEAM_VAC: "true"
+      PZ_BACKUP_ENABLED: "true"
+      PZ_BACKUP_INTERVAL: "3600"
+      PZ_BACKUP_RETENTION: "10"
     volumes: 
       - ${HOME}/pz-server:/home/ubuntu # You can instead use a docker volume with pz-server:/home/ubuntu but this will make it more difficult to update server configuration later
     ports:
@@ -147,6 +162,10 @@ When this container is run it will call the [bootstrap](bootstrap) script. This 
 Next the bootstrap script will attempt to install/update the Project Zomboid server.
 
 Finally, the server startup script will run.
+
+## Backups
+
+When `PZ_BACKUP_ENABLED` is set to `true`, the container will create a tar.gz backup of the `PZ_BACKUP_TARGET` directory at the configured interval and store it in `PZ_BACKUP_DIR`. Backups are kept in the same `/home/ubuntu` volume mount so they persist across container restarts.
 
 ## Modifying Server Configuration
 
