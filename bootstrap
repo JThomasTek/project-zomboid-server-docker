@@ -1,7 +1,11 @@
 #!/bin/bash
 
-# Update the game
-steamcmd +force_install_dir /home/ubuntu/pzserver +login anonymous +app_update 380870 +quit
+# Update server files via SteamCMD
+./update-server.sh
+if [ $? -ne 0 ]; then
+    echo "Failed to update server files. Aborting." >&2
+    exit 1
+fi
 
 cd /home/ubuntu/pzserver
 
